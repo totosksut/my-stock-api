@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #products-static-resources},
+                                                ~{:: #products-header},
+                                                ~{:: #products-nav},
+                                                ~{:: #products-main-content},  
+                                                ~{:: #products-footer}
+                                               )}">
+                                              
+<head>
+    <title>Stock Monitoring</title>
+    <th:block id="products-static-resources">  
+     	<script th:src="@{js/angular.min.js}"></script>
+       	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{js/datatables.min.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+			/* $(document).ready(function () {
+				
+				
+			}); */
+			
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope ,$http) {
+				
+				$scope.objData = {
+					emailSender : /*[[${stockObj?.emailSender}]]*/ '',
+					emailPassword : /*[[${stockObj?.emailPassword}]]*/ '',
+					emailReceiver : /*[[${stockObj?.emailReceiver}]]*/ [],
+					dbfPathSP : /*[[${stockObj?.dbfPathSP}]]*/ '',
+					dbfPathMC : /*[[${stockObj?.dbfPathMC}]]*/ '',
+					dbfPathSF : /*[[${stockObj?.dbfPathSF}]]*/ '',
+					dbfPathAP : /*[[${stockObj?.dbfPathAP}]]*/ '',
+					dbfPath : /*[[${stockObj?.dbfPath}]]*/ '',
+					excelPath : /*[[${stockObj?.excelPath}]]*/ '',
+					safetyStockPath : /*[[${stockObj?.safetyStockPath}]]*/ '',
+					pathH2 : /*[[${stockObj?.pathH2}]]*/ '',
+					logPath : /*[[${stockObj?.logPath}]]*/ '',
+					excelMultiPath : /*[[${stockObj?.excelMultiPath}]]*/ '',
+					listFileStock : /*[[${stockObj?.listFileStock}]]*/ [],
+					emailReceiver2 : /*[[${stockObj?.emailReceiver2}]]*/ '',
+					pathMultiResult : /*[[${stockObj?.pathMultiResult}]]*/ '',
+				}
+				
+			    
+			    $scope.addEmailReceiver = function(){
+			    	$scope.objData.emailReceiver.push("");
+			    };
+			    
+			    $scope.resetFunction = function(){
+			    	location.reload();
+			    };
+			    
+			    $scope.remove = function(item) {
+					var index = $scope.objData.emailReceiver.indexOf(item);
+					$scope.objData.emailReceiver.splice(index, 1);     
+			    };
+			    
+			    $scope.isNullStr = function(data){
+			    	if(data==undefined || data==null || data==''){
+			    		return false;
+			    	}else{
+			    		return true;
+			    	}
+			    };
+			    
+			    $scope.updateValue = function(index ,data){
+			    	$scope.objData.emailReceiver[index] = data;
+			    	console.log('$scope.emailReceiver : ',$scope.objData.emailReceiver);
+			    };
+			    
+			    $scope.saveProp = function(){
+			    	
+			    	
+			    	let isValid = true;
+			    	
+			    	if($scope.objData.emailReceiver.length>0){
+			    		for(let i in $scope.objData.emailReceiver){
+			    			if(!($scope.isNullStr($scope.objData.emailReceiver[i]))){
+			    				$scope.remove($scope.objData.emailReceiver[i]);
+			    			}
+			    		}
+			    	}else{
+			    		alert("Email Receiver is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.emailSender)){
+			    		alert("Email Receiver is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.emailPassword)){
+			    		alert("Email Password is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.dbfPathSP)){
+			    		alert("DBF Path SP is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.dbfPathMC)){
+			    		alert("DBF Path MC is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.dbfPathSF)){
+			    		alert("DBF Path SF is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.dbfPathAP)){
+			    		alert("DBF Path AP is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.dbfPath)){
+			    		alert("DBF Path ALL is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.safetyStockPath)){
+			    		alert("Safety Stock Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.excelPath)){
+			    		alert("Result Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.pathH2)){
+			    		alert("H2 Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.logPath)){
+			    		alert("Log Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	console.log('$scope.objData : ',$scope.objData);
+			    	
+			    	if(isValid){
+			    		$http({
+			    			  method: 'POST',
+			    			  url: '/saveStockData',
+			    			  data: JSON.stringify($scope.objData),
+			    			  transformResponse: [
+			    			  	function (data) { 
+			    			  		//console.log("response : ",data);
+			    			    	return data; 
+			    			  	}
+			    			  ]
+			    		}).then(function (response) {
+			    			console.log("response : ",response);
+			    			if(response.data=='OK'){
+			    				location.reload();
+			    			}
+			    		}, function (response) {
+			    		    console.log(response);
+			    		});
+			    	}
+			    };
+			});
+			
+			
+			
+		</script>
+    </th:block>
+</head>
+<body>
+    <div id="products-header">
+    	<br>
+        <h3>Stock Monitor Master</h3> 
+    </div>
+    <div id="products-nav" th:replace="~{fragments/app-fragments :: nav-default}">
+         Nav
+    </div>
+    <div id="products-main-content" ng-app="myApp" ng-controller="myCtrl">
+    	<div class="row">
+    		<div class="col-sm-12">
+		       <div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Email Sender :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.emailSender" required="required" id="emailSender" placeholder="Email Sender">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Email Password :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.emailPassword" required="required" id="emailPassword"  placeholder="Email Password">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Email Receiver :</label>
+					<div class="col-sm-8">
+						<div ng-repeat="obj in objData.emailReceiver track by $index">
+							<input type="text" class="form-control"  autocomplete="off" ng-model="objData.emailReceiver[$index]" id="emailReceiver" >
+						</div>
+					</div>
+					<div class="col-sm-1"><button type="button" id="addBtn" ng-click="addEmailReceiver()" class="btn btn-primary">Add + </button></div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">DBF Path SP :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.dbfPathSP" required="required" id="dbfPathSP" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">DBF Path MC :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.dbfPathMC" required="required" id="dbfPathMC" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">DBF Path SF :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.dbfPathSF" required="required" id="dbfPathSF" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">DBF Path AP :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.dbfPathAP" required="required" id="dbfPathAP" >
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">DBF Path ALL :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.dbfPath" required="required" id="dbfPath" >
+					</div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Safety Stock Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.safetyStockPath" required="required" id="safetyStockPath" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Result Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.excelPath" required="required" id="excelPath" >
+					</div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">H2 Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.pathH2" required="required" id="pathH2" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Log Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.logPath" required="required" id="logPath" >
+					</div>
+				</div>
+				<br>
+				<div class="form-group row">
+					<div class="col-sm-12" style="text-align:center">
+						<button type="button" id="saveBtn" ng-click="saveProp()" class="btn btn-success">Save</button> 
+						<button type="button" id="resetBtn" ng-click="resetFunction()" class="btn btn-warning">Reset</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+    </div>
+    <div id="products-footer" th:replace="~{fragments/app-fragments :: copyright}">
+        Footer
+    </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #products-static-resources},
+                                                ~{:: #products-header},
+                                                ~{:: #products-nav},
+                                                ~{:: #products-main-content},  
+                                                ~{:: #products-footer}
+                                               )}">
+                                              
+<head>
+    <title>Stock Monitoring</title>
+    <th:block id="products-static-resources">  
+     	<script th:src="@{js/angular.min.js}"></script>
+       	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+		<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{js/datatables.min.js}"></script>
+        <script type="text/javascript" th:inline="javascript">
+			/* $(document).ready(function () {
+				
+				
+			}); */
+			
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope ,$http) {
+				
+				$scope.objData = {
+					emailSender : /*[[${stockObj?.emailSender}]]*/ '',
+					emailPassword : /*[[${stockObj?.emailPassword}]]*/ '',
+					emailReceiver : /*[[${stockObj?.emailReceiver}]]*/ [],
+					dbfPathSP : /*[[${stockObj?.dbfPathSP}]]*/ '',
+					dbfPathMC : /*[[${stockObj?.dbfPathMC}]]*/ '',
+					dbfPathSF : /*[[${stockObj?.dbfPathSF}]]*/ '',
+					dbfPathAP : /*[[${stockObj?.dbfPathAP}]]*/ '',
+					dbfPath : /*[[${stockObj?.dbfPath}]]*/ '',
+					excelPath : /*[[${stockObj?.excelPath}]]*/ '',
+					safetyStockPath : /*[[${stockObj?.safetyStockPath}]]*/ '',
+					pathH2 : /*[[${stockObj?.pathH2}]]*/ '',
+					logPath : /*[[${stockObj?.logPath}]]*/ '',
+					excelMultiPath : /*[[${stockObj?.excelMultiPath}]]*/ '',
+					listFileStock : /*[[${stockObj?.listFileStock}]]*/ [],
+					emailReceiver2 : /*[[${stockObj?.emailReceiver2}]]*/ '',
+					pathMultiResult : /*[[${stockObj?.pathMultiResult}]]*/ '',
+				}
+				
+			    
+			    $scope.addEmailReceiver = function(){
+			    	$scope.objData.emailReceiver2.push("");
+			    };
+			    
+			    $scope.resetFunction = function(){
+			    	location.reload();
+			    };
+			    
+			    $scope.remove = function(item) {
+					var index = $scope.objData.emailReceiver2.indexOf(item);
+					$scope.objData.emailReceiver2.splice(index, 1);     
+			    };
+			    
+			    $scope.isNullStr = function(data){
+			    	if(data==undefined || data==null || data==''){
+			    		return false;
+			    	}else{
+			    		return true;
+			    	}
+			    };
+			    
+			    $scope.addSafetyStockPath = function(){
+			    	$scope.objData.listFileStock.push("");
+			    };
+			    
+			    $scope.removeStock = function(item) {
+					var index = $scope.objData.listFileStock.indexOf(item);
+					$scope.objData.listFileStock.splice(index, 1);     
+			    };
+
+			    $scope.saveProp = function(){
+			    	
+			    	
+			    	let isValid = true;
+			    	
+			    	if($scope.objData.emailReceiver2.length>0){
+			    		for(let i in $scope.objData.emailReceiver2){
+			    			if(!($scope.isNullStr($scope.objData.emailReceiver2[i]))){
+			    				$scope.remove($scope.objData.emailReceiver2[i]);
+			    			}
+			    		}
+			    	}else{
+			    		alert("Email Receiver is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.excelMultiPath)){
+			    		alert("Result Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if(!$scope.isNullStr($scope.objData.pathMultiResult)){
+			    		alert("Result Zip Path is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	if($scope.objData.listFileStock.length>0){
+			    		for(let i in $scope.objData.listFileStock){
+			    			if(!($scope.isNullStr($scope.objData.listFileStock[i]))){
+			    				$scope.removeStock($scope.objData.listFileStock[i]);
+			    			}
+			    		}
+			    	}else{
+			    		alert("Email Receiver is empty");
+			    		isValid = false;
+			    	}
+			    	
+			    	
+			    	console.log('$scope.objData : ',$scope.objData);
+			    	
+			    	if(isValid){
+			    		$http({
+			    			  method: 'POST',
+			    			  url: '/saveStockData',
+			    			  data: JSON.stringify($scope.objData),
+			    			  transformResponse: [
+			    			  	function (data) { 
+			    			  		//console.log("response : ",data);
+			    			    	return data; 
+			    			  	}
+			    			  ]
+			    		}).then(function (response) {
+			    			console.log("response : ",response);
+			    			if(response.data=='OK'){
+			    				location.reload();
+			    			}
+			    		}, function (response) {
+			    		    console.log(response);
+			    		});
+			    	}
+			    };
+			});
+			
+			
+			
+		</script>
+    </th:block>
+</head>
+<body>
+    <div id="products-header">
+    	<br>
+        <h3>Stock Monitor Multiple</h3> 
+    </div>
+    <div id="products-nav" th:replace="~{fragments/app-fragments :: nav-default}">
+         Nav
+    </div>
+    <div id="products-main-content" ng-app="myApp" ng-controller="myCtrl">
+    	<div class="row">
+    		<div class="col-sm-12">
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Email Receiver :</label>
+					<div class="col-sm-8">
+						<div ng-repeat="obj in objData.emailReceiver2 track by $index">
+							<input type="text" class="form-control"  autocomplete="off" ng-model="objData.emailReceiver2[$index]" id="emailReceiver" >
+						</div>
+					</div>
+					<div class="col-sm-1"><button type="button" id="addBtn" ng-click="addEmailReceiver()" class="btn btn-primary">Add + </button></div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Safety Stock Path :</label>
+					<div class="col-sm-8">
+						<div ng-repeat="obj in objData.listFileStock track by $index">
+							<input type="text" class="form-control"  autocomplete="off" ng-model="objData.listFileStock[$index]" id="listFileStock" >
+						</div>
+					</div>
+					<div class="col-sm-1"><button type="button" id="addBtn" ng-click="addSafetyStockPath()" class="btn btn-primary">Add + </button></div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Result Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.excelMultiPath" required="required" id="excelMultiPath" >
+					</div>
+				</div>
+				<hr>
+				<div class="form-group row">
+					<label for="staticEmail" class="col-sm-2 col-form-label text-right">Result Zip Path :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" autocomplete="off" ng-model="objData.pathMultiResult" required="required" id="pathMultiResult" >
+					</div>
+				</div>
+				<br>
+				<div class="form-group row">
+					<div class="col-sm-12" style="text-align:center">
+						<button type="button" id="saveBtn" ng-click="saveProp()" class="btn btn-success">Save</button> 
+						<button type="button" id="resetBtn" ng-click="resetFunction()" class="btn btn-warning">Reset</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+    </div>
+    <div id="products-footer" th:replace="~{fragments/app-fragments :: copyright}">
+        Footer
+    </div>
+</body>
+</html>
