@@ -106,15 +106,15 @@ public class StockFastBu {
 			String pathARTRNSF = debSalesObj.getDbfPathCustSF() + "ARTRN.dbf";
 			String pathARTRNAP = debSalesObj.getDbfPathCustAP() + "ARTRN.dbf";
 
-			FilesUtils.copyFileARMAS(pathARMASSP, "SP", debSalesObj.getDbfPathCustSP());
-			FilesUtils.copyFileARMAS(pathARMASMC, "MC", debSalesObj.getDbfPathCustMC());
-			FilesUtils.copyFileARMAS(pathARMASSF, "SF", debSalesObj.getDbfPathCustSF());
-			FilesUtils.copyFileARMAS(pathARMASAP, "AP", debSalesObj.getDbfPathCustAP());
+			FilesUtils.copyFileARMAS(pathARMASSP, "SP", stockObj.getDbfPath());
+			FilesUtils.copyFileARMAS(pathARMASMC, "MC", stockObj.getDbfPath());
+			FilesUtils.copyFileARMAS(pathARMASSF, "SF", stockObj.getDbfPath());
+			FilesUtils.copyFileARMAS(pathARMASAP, "AP", stockObj.getDbfPath());
 
-			FilesUtils.copyFileARTRN(pathARTRNSP, "SP", debSalesObj.getDbfPathCustSP());
-			FilesUtils.copyFileARTRN(pathARTRNMC, "MC", debSalesObj.getDbfPathCustMC());
-			FilesUtils.copyFileARTRN(pathARTRNSF, "SF", debSalesObj.getDbfPathCustSF());
-			FilesUtils.copyFileARTRN(pathARTRNAP, "AP", debSalesObj.getDbfPathCustAP());
+			FilesUtils.copyFileARTRN(pathARTRNSP, "SP", stockObj.getDbfPath());
+			FilesUtils.copyFileARTRN(pathARTRNMC, "MC", stockObj.getDbfPath());
+			FilesUtils.copyFileARTRN(pathARTRNSF, "SF", stockObj.getDbfPath());
+			FilesUtils.copyFileARTRN(pathARTRNAP, "AP", stockObj.getDbfPath());
 
 			FilesUtils.copyFile(pathSP, "SP", stockObj.getDbfPath());
 			FilesUtils.copyFile(pathMC, "MC", stockObj.getDbfPath());

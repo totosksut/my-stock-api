@@ -16,7 +16,6 @@ public class ConnectionUtils {
 		Connection conn = null;
 		
 		try {
-			//Class.forName("com.dbschema.dbf.JdbcDriver");
 
 			conn = DriverManager.getConnection("jdbc:dbschemaTNP:dbf:" + path);
 			
