@@ -25,6 +25,7 @@ public class StockController {
 		logger.info("==========start checkStockSingle Service============");
 		try {
 			stkFastBu.checkStock();
+			stkFastBu.checkStockMulti();
 			return new ResponseEntity<Object>("OK", HttpStatus.OK);
 		}catch(Exception e) {
 			return new ResponseEntity<Object>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,18 +34,18 @@ public class StockController {
 		}
 	}
 	
-	@RequestMapping(value = "/checkStockMulti" , method= RequestMethod.POST)
-	public ResponseEntity<Object> checkStockMulti(){
-		logger.info("==========start checkStockMulti Service============");
-		try {
-			stkFastBu.checkStockMulti();
-			return new ResponseEntity<Object>("OK", HttpStatus.OK);
-		}catch(Exception e) {
-			return new ResponseEntity<Object>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-		}finally {
-			logger.info("==========end checkStockMulti Service============");
-		}
-	}
+//	@RequestMapping(value = "/checkStockMulti" , method= RequestMethod.POST)
+//	public ResponseEntity<Object> checkStockMulti(){
+//		logger.info("==========start checkStockMulti Service============");
+//		try {
+//			stkFastBu.checkStockMulti();
+//			return new ResponseEntity<Object>("OK", HttpStatus.OK);
+//		}catch(Exception e) {
+//			return new ResponseEntity<Object>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+//		}finally {
+//			logger.info("==========end checkStockMulti Service============");
+//		}
+//	}
 	
 	@RequestMapping(value = "/createTable" , method= RequestMethod.POST)
 	public ResponseEntity<Object> createTable(){
@@ -72,16 +73,16 @@ public class StockController {
 		}
 	}
 	
-	@RequestMapping(value = "/testQuery" , method= RequestMethod.POST)
-	public ResponseEntity<Object> testQuery(){
-		logger.info("==========start testQuery Service============");
-		try {
-			stkFastBu.testQuery();
-			return new ResponseEntity<Object>("OK", HttpStatus.OK);
-		}catch(Exception e) {
-			return new ResponseEntity<Object>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-		}finally {
-			logger.info("==========end testQuery Service============");
-		}
-	}
+//	@RequestMapping(value = "/testQuery" , method= RequestMethod.POST)
+//	public ResponseEntity<Object> testQuery(){
+//		logger.info("==========start testQuery Service============");
+//		try {
+//			stkFastBu.testQuery();
+//			return new ResponseEntity<Object>("OK", HttpStatus.OK);
+//		}catch(Exception e) {
+//			return new ResponseEntity<Object>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+//		}finally {
+//			logger.info("==========end testQuery Service============");
+//		}
+//	}
 }

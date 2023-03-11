@@ -101,12 +101,13 @@ public class StockDAO {
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -140,8 +141,11 @@ public class StockDAO {
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
 				}
+				else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
+				}
 			}
-			
+			//rs.close();
 			//MC
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -156,7 +160,7 @@ public class StockDAO {
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'MC%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -164,12 +168,13 @@ public class StockDAO {
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -202,9 +207,11 @@ public class StockDAO {
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			//SF
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -219,7 +226,7 @@ public class StockDAO {
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'SF%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -227,12 +234,13 @@ public class StockDAO {
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -265,9 +273,11 @@ public class StockDAO {
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			//AP
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -282,7 +292,7 @@ public class StockDAO {
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'AP%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -290,12 +300,13 @@ public class StockDAO {
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -328,9 +339,11 @@ public class StockDAO {
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			return remain;
 		}catch(Exception e) {
 			//e.printStackTrace();
@@ -378,12 +391,13 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -416,9 +430,11 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			//MC
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -433,7 +449,7 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'MC%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -441,12 +457,13 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -479,9 +496,11 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			//SF
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -496,7 +515,7 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'SF%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -504,12 +523,13 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -542,9 +562,11 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
-			
+			//rs.close();
 			//AP
 			query  = "select sum(a.XTRNQTY) as cal ,a.sign from  " + 
 					"	( " + 
@@ -559,7 +581,7 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"						WHEN TRIM(t.POSOPR) = '9' THEN '-' " + 
 					"						ELSE '+' " + 
 					"					END " + 
-					"				WHEN t.DOCNUM LIKE 'SP%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'AP%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'RR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'TK%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'PI%' THEN '+' " + 
@@ -567,12 +589,13 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					"				WHEN t.DOCNUM LIKE 'SR%' THEN '+' " + 
 					"				WHEN t.DOCNUM LIKE 'OU%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'XS%' THEN '-' " + 
+					"				WHEN t.DOCNUM LIKE 'GR%' THEN '-' " + 
 					"				WHEN t.DOCNUM LIKE 'ยอดยกมา%' THEN '+' " + 
 					"				WHEN " + 
 					"					t.DOCNUM LIKE 'JU%' " + 
 					"				THEN " + 
 					"					CASE " + 
-					"						WHEN t.XTRNQTY < 0 THEN '--' " + 
+					"						WHEN t.XTRNQTY < 0 THEN '---' " + 
 					"						ELSE '+' " + 
 					"					END " + 
 					"				WHEN " + 
@@ -605,8 +628,12 @@ public Double checkStockRemain03(String stkCode , Connection conn) throws Except
 					remain-=rs.getDouble("cal");
 				}else if("--".equals(rs.getString("SIGN"))) {
 					remain-=rs.getDouble("cal");
+				}else if("---".equals(rs.getString("SIGN"))) {
+					remain+=rs.getDouble("cal");
 				}
 			}
+			
+			//rs.close();
 			
 			return remain;
 		}catch(Exception e) {
